@@ -1,0 +1,32 @@
+
+ADMIN SCREEN
+
+***1- Poder borrar de a una imagen en el storage****
+
+2- Poder sumar imagenes nuevas a un producto ya existente
+
+3- Hacer el uploading progresssss bar
+
+4- implementar el switch disponible
+
+5- Poner contraseña al acceso del admin
+
+6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
+
+----------
+
+CLIENTE SCREEN
+
+1- Hacer pantalla y funcionalidad para enviar al whatssApp
+
+2- Hacer pantalla de info y datos de contacto
+
+3- Aplicar una grafica mas linda
+
+-----------
+
+OTROS
+
+1- Subir a GitHub
+
+2- Subir a PlayStore
