@@ -14,7 +14,7 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _dataProvider = Provider.of<GetProductsProvider>(context);
-    final _product = _dataProvider.allProducts[index];
+    final _product = _dataProvider.productsFromDB[index];
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -41,7 +41,7 @@ class CartCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _dataProvider.allProducts[index].title,
+                  _dataProvider.productsFromDB[index].title,
                   style: kTextMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -61,7 +61,7 @@ class CartCard extends StatelessWidget {
 
                     // quantity
                     Text(
-                      _dataProvider.allProducts[index].cartOrder.toString(),
+                      _dataProvider.productsFromDB[index].cartOrder.toString(),
                       style: kTextMedium,
                     ),
 

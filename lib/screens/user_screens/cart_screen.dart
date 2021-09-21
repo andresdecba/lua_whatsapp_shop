@@ -49,9 +49,9 @@ class CartScreen extends StatelessWidget {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
-                        itemCount: _dataProvider.allProducts.length,
+                        itemCount: _dataProvider.productsFromDB.length,
                         itemBuilder: (BuildContext context, int index) {
-                          if (_dataProvider.allProducts[index].onCart == true) {
+                          if (_dataProvider.productsFromDB[index].onCart == true) {
                             return CartCard(index: index);
                           } else {
                             return SizedBox();

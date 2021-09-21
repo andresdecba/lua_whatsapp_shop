@@ -7,8 +7,11 @@ import 'package:wappshop_2/providers/providers.dart';
 import 'package:wappshop_2/styles/styles.dart';
 
 class PickImages extends StatefulWidget {
-  const PickImages({Key? key, this.product,}) : super(key: key);
-  final ProductModel? product;
+  const PickImages({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+  final ProductModel product;
   @override
   State<PickImages> createState() => _PickImagesState();
 }
@@ -16,7 +19,7 @@ class PickImages extends StatefulWidget {
 class _PickImagesState extends State<PickImages> {
   var _picker;
   var _pickImageError;
-  List<XFile> _imageFileList = [];
+  final List<XFile> _imageFileList = [];
 
   @override
   void initState() {
@@ -29,7 +32,7 @@ class _PickImagesState extends State<PickImages> {
     final _provider = Provider.of<AdminProductsProvider>(context);
     return Column(
       children: [
-        _previewImages(),
+        _previewImages(_provider),
         SizedBox(height: 12),
         ElevatedButton(
           onPressed: () => pickImages(_provider),
@@ -41,7 +44,7 @@ class _PickImagesState extends State<PickImages> {
   }
 
   // display images or no images message
-  Widget _previewImages() {
+  Widget _previewImages(AdminProductsProvider provider) {
     if (_imageFileList.isNotEmpty) {
       return GridView.builder(
         shrinkWrap: true,
@@ -53,12 +56,30 @@ class _PickImagesState extends State<PickImages> {
         ),
         itemCount: _imageFileList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.file(
-                File(_imageFileList[index].path),
-                fit: BoxFit.cover,
-              ));
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _imageFileList.removeAt(index);
+                provider.imagesToUpload.removeAt(index);
+              });
+            },
+            child: Stack(fit: StackFit.expand, children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(_imageFileList[index].path),
+                    fit: BoxFit.cover,
+                  )),
+              Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Icon(
+                    Icons.delete_forever,
+                    color: Colors.white,
+                    size: 30,
+                  ))
+            ]),
+          );
         },
       );
     } else if (_pickImageError != null) {
@@ -69,8 +90,7 @@ class _PickImagesState extends State<PickImages> {
     } else if (widget.product != null) {
       return SizedBox();
     } else {
-      return //SizedBox();
-          Container(
+      return Container(
         padding: kPaddingSmall,
         color: kLightGrey,
         width: double.infinity,
@@ -87,14 +107,16 @@ class _PickImagesState extends State<PickImages> {
     try {
       // 1- get images
       List<XFile> pickedFileList = await _picker.pickMultiImage();
+
       // 2- send picked images to provider
       for (var item in pickedFileList) {
-        File tmpFile = File(item.path);
-        provider.imagesTmp.add(tmpFile);
+        File tmp = File(item.path);
+        provider.imagesToUpload.add(tmp);
       }
+
       // 3- update screen
       setState(() {
-        _imageFileList.isEmpty ? _imageFileList = pickedFileList : _imageFileList.addAll(pickedFileList);
+        _imageFileList.addAll(pickedFileList);
       });
     } catch (e) {
       setState(() {

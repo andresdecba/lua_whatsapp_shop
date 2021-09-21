@@ -3,23 +3,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/screens/screens.dart';
 
 class AdminProductsProvider extends ChangeNotifier {
-  // propiedades
-  String? description;
-  int? price;
-  String? subtitle;
-  String? title;
-  List<String> images = [];
-  String? id; // el id se genera en sendAllToDB();
-  bool available = false;
-  bool onCart = false;
-  int cartOrder = 0;
+  late ProductModel product;
+  List<File> imagesToUpload = [];
 
-  List<File> imagesTmp = [];
+  //////// forms keys validator ////////
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   bool validateForm() {
     return formKey.currentState?.validate() ?? false;
   }
@@ -28,31 +20,27 @@ class AdminProductsProvider extends ChangeNotifier {
   final _databaseRef = FirebaseDatabase.instance.reference();
   final _storageRef = FirebaseStorage.instance.ref();
 
+  //////// habilitar producto disponible ////////
+  void updateAvailable(bool value) {
+    product.available = value;
+    notifyListeners();
+  }
+
   //////// crear un producto ////////
   Future _createProduct() async {
     try {
-      await _databaseRef
-          .child("products/$id")
-          .set({'description': description, 'price': price, 'subtitle': subtitle, 'title': title, 'images': images, 'id': id, 'available': available, 'onCart': onCart, 'cartOrder': cartOrder});
-      images.clear();
+      await _databaseRef.child("products/${product.id}").set(product.toMap());
     } catch (e) {
-      print('Error cargando los datos $e');
+      print('Error al CREAR un producto $e');
     }
   }
 
   //////// editar un producto ////////
   Future _updateProduct(String id) async {
     try {
-      await _databaseRef
-          .child("products/$id")
-          .update({'description': description, 'price': price, 'subtitle': subtitle, 'title': title, 'available': available, 'onCart': onCart, 'cartOrder': cartOrder});
-    
-      await _databaseRef
-          .child("products/$id")
-          .update({'images': images });
-
+      await _databaseRef.child("products/${product.id}").update(product.toMap());
     } catch (e) {
-      print('Error cargando los datos $e');
+      print('Error al EDITAR un producto $e');
     }
   }
 
@@ -61,81 +49,66 @@ class AdminProductsProvider extends ChangeNotifier {
     try {
       // borrar en firebase
       await _databaseRef.child("products/$itemId").remove();
-      // storage: no se puede borrar el directorio directamente, hay que listar su contenido y borrar cada elemento que contiene
+      // borrar en storage: no se puede borrar el directorio directamente, hay que listar su contenido y borrar cada elemento que contiene
       await _storageRef.child("productsImages/$itemId").listAll().then((value) => value.items.forEach((element) => element.delete())).catchError((e) => print(e));
     } catch (e) {
-      print(e);
+      print('Error al BORRAR un producto $e');
     }
   }
 
-  //////// borrar una imagen en storage ////////
-  Future deleteAnImageStorage(String imageUrl) async {
-    final _imageRef = FirebaseStorage.instance.refFromURL(imageUrl);
-    try {
-      await _imageRef.delete().then((value) => print('borrado'));
-    } catch (e) {
-      print(e);
-    }
-  }
+  //////// borrar una sola imagen ////////
+  Future deleteAnImageStorage({ required int index}) async {
 
-  //////// borrar una imagen en firebase ////////
-  Future deleteAnImageDB(String itemId, List<String> imagesList) async {
     try {
-      await _databaseRef.child("products/$itemId").update({'images': imagesList});
+      //1- borrar imagen en storage, 2- borrar imagen en producto local, 3- actulizar lista de imagenes en firebase
+      await FirebaseStorage.instance.refFromURL(product.images[index]).delete();
+      product.images.removeAt(index);
+      await _databaseRef.child("products/${product.id}").update({'images': product.images});
     } catch (e) {
-      print(e);
+      print('Error al BORRAR una imagen $e');
     }
     notifyListeners();
   }
 
   //////// subir imagenes a storage ////////
-  Future _uploadImages() async {
-    try {
-      for (var item in imagesTmp) {
-        // obtener nombre de imagen para subir
-        String fileName = basename(item.path);
-        // subir imagen
-        final uploadTask = await _storageRef.child('productsImages/$id/$fileName').putFile(item);
-        // obtener url de la imagen subida y agregar a la lista de imgs
-        final taskSnapshot = uploadTask;
-        await taskSnapshot.ref.getDownloadURL().then((value) => images.add(value));
-      }
-      imagesTmp.clear();
-    } catch (e) {
-      print('error en subir imagenes: $e');
-    }
-  }
+  Future _uploadImages(itemId) async {
 
-  //////// agregar imagenes a un producto en storage ////////
-  Future _addNewImagesToProduct(itemId) async {
+    if (itemId == '') {
+      itemId = product.id;
+    }
+
     try {
-      for (var item in imagesTmp) {
+      for (var item in imagesToUpload) {
         // obtener nombre de imagen para subir
         String fileName = basename(item.path);
         // subir imagen
         final uploadTask = await _storageRef.child('productsImages/$itemId/$fileName').putFile(item);
         // obtener url de la imagen subida y agregar a la lista de imgs
-        await uploadTask.ref.getDownloadURL().then((value) {
-          images.add(value);
-          print(' VALUEEEEE :::::::: $value  ');
-        });
+        await uploadTask.ref.getDownloadURL().then((value) => product.images.add(value));
       }
-      print('LISTA DE IMAGESSS ::::::::: $images');
-      imagesTmp.clear();
+      imagesToUpload.clear();
     } catch (e) {
-      print('error agregando imagenes en storage $e');
+      print('error en subir imagenes: $e');
     }
   }
 
+  //////////////////
+
+
+
+
+
+
+  /////////////////
+
   //////// crear producto en el servidor////////
   //** no cambiar el orden de las instrucciones **//
-  Future sendAllToDB({required BuildContext context, String? itemId}) async {
-
-    if (itemId == null) {
+  Future createUpdateProduct({required BuildContext context, required String itemId}) async {
+    if (itemId == "") {
       // create new product
-      id = _databaseRef.push().key;
+      product.id = _databaseRef.push().key;
       try {
-        await _uploadImages();
+        await _uploadImages(itemId);
         validateForm();
         await _createProduct().then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AllProducts()), (route) => false));
       } catch (e) {
@@ -144,7 +117,8 @@ class AdminProductsProvider extends ChangeNotifier {
     } else {
       // update product
       try {
-        await _addNewImagesToProduct(itemId);
+        await _uploadImages(itemId);
+        validateForm();
         await _updateProduct(itemId).then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AllProducts()), (route) => false));
       } catch (e) {
         print('Error al editar producto $e');

@@ -4,12 +4,10 @@ import 'package:wappshop_2/styles/styles.dart';
 
 class HorizontalCard extends StatelessWidget {
   const HorizontalCard({Key? key, required this.product}) : super(key: key);
-
   final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
-    print('imagenesss ${product.images.length} // ${product.images}');
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -18,6 +16,10 @@ class HorizontalCard extends StatelessWidget {
       decoration: BoxDecoration(color: kLightGrey, borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: [
+
+          if (!product.available) // TODO: implementar widget disponible 
+          Text("!"),
+
           ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: FadeInImage(
@@ -54,6 +56,7 @@ class HorizontalCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                !product.available ? Text('No disponible') : SizedBox(),
                 Spacer(),
                 Text(
                   '\$ ${product.price}',

@@ -12,8 +12,9 @@ class GetProductsProvider extends ChangeNotifier {
   }
 
   // propiedades
-  List<ProductModel> allProducts = [];
+  List<ProductModel> productsFromDB = [];
   ProductModel? singleProduct;
+  bool isLoading = true;
 
   // database reference
   final _database = FirebaseDatabase.instance.reference();
@@ -23,53 +24,62 @@ class GetProductsProvider extends ChangeNotifier {
   late StreamSubscription<Event> _getAllProductsStream;
 
   // llamar a db UN SOLO producto
-  Future getSingleProduct() async {
+  Future<ProductModel?> getSingleProduct() async {
     _getSingleProductStream = _database.child("products/id").onValue.listen((event) {
       final dbResponse = Map<String, dynamic>.from(event.snapshot.value);
       singleProduct = ProductModel.fromMap(dbResponse);
       notifyListeners();
     });
+    return singleProduct;
   }
 
   // llamar a db TODOS los prodcutos
   Future getAllProducts() async {
+    //this.isLoading = true;
+    //notifyListeners();
+
     _getAllProductsStream = _database.child("products/").onValue.listen((event) {
       final dbResponse = Map<String, dynamic>.from(event.snapshot.value);
 
-      allProducts = dbResponse.values.map((orderAsJson) {
+      productsFromDB = dbResponse.values.map((orderAsJson) {
         return ProductModel.fromMap(Map<String, dynamic>.from(orderAsJson));
       }).toList();
 
       notifyListeners();
     });
+
+      print(':::::::::: $productsFromDB');
+    //this.isLoading = false;
+
+    return productsFromDB;
   }
 
   // agregar producto al carrito y sumar cantidad al item en PRODUCT SCREEN Y CART SCREEN
   void addCartItem(int index) {
-    allProducts[index].cartOrder++;
+    productsFromDB[index].cartOrder++;
 
-    if (allProducts[index].cartOrder >= 1) {
-      allProducts[index].onCart = true;
+    if (productsFromDB[index].cartOrder >= 1) {
+      productsFromDB[index].onCart = true;
     }
     notifyListeners();
   }
 
   // restar cantidad al item y quitar producto al carrito en PRODUCT SCREEN
   void substractCartItem(int index) {
-    if (allProducts[index].cartOrder >= 1) {
-      allProducts[index].cartOrder--;
+    if (productsFromDB[index].cartOrder >= 1) {
+      productsFromDB[index].cartOrder--;
     }
 
-    if (allProducts[index].cartOrder == 0) {
-      allProducts[index].onCart = false;
+    if (productsFromDB[index].cartOrder == 0) {
+      productsFromDB[index].onCart = false;
     }
     notifyListeners();
   }
 
   // restar cantidad al item en CART SCREEN
   substractCartItem2(int index) {
-    if (allProducts[index].cartOrder > 1) {
-      allProducts[index].cartOrder--;
+    if (productsFromDB[index].cartOrder > 1) {
+      productsFromDB[index].cartOrder--;
     }
     notifyListeners();
   }
@@ -77,15 +87,15 @@ class GetProductsProvider extends ChangeNotifier {
   // borrar item en CART SCREEN
   void deleteCartItem(int index) {
     print('indexx from provider $index');
-    allProducts[index].onCart = false;
-    allProducts[index].cartOrder = 0;
+    productsFromDB[index].onCart = false;
+    productsFromDB[index].cartOrder = 0;
     notifyListeners();
   }
 
   // contar los items agregados al carrito
   int cartItemsLenght() {
     int contar = 0;
-    for (var item in allProducts) {
+    for (var item in productsFromDB) {
       if (item.onCart == true) {
         contar++;
       }
@@ -97,7 +107,7 @@ class GetProductsProvider extends ChangeNotifier {
   int totalAPagar() {
     int total = 0;
 
-    for (var item in allProducts) {
+    for (var item in productsFromDB) {
       if (item.onCart == true) {
         total += item.price * item.cartOrder;
       }
@@ -111,7 +121,7 @@ class GetProductsProvider extends ChangeNotifier {
     String resumenTxt = '';
     String totalpagar = '-------------------\nTotal a pagar: \$${totalAPagar().toString()}';
 
-    for (var item in allProducts) {
+    for (var item in productsFromDB) {
       if (item.onCart == true) {
         resumenTxt += '-------------------\nProducto: ${item.title}\nCantidad: ${item.cartOrder}\nPrecio: \$${item.price} / Total: \$${item.price * item.cartOrder}\n';
       }

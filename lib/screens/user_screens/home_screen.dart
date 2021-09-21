@@ -25,7 +25,10 @@ class _List extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final _dataProvider = Provider.of<GetProductsProvider>(context);
+
+    //if (_dataProvider.isLoading) return IsLoading();
 
     return CustomScrollView(
       physics: const ScrollPhysics(),
@@ -41,15 +44,12 @@ class _List extends StatelessWidget {
             addAutomaticKeepAlives: true,
             physics: ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: _dataProvider.allProducts.length,
+            itemCount: _dataProvider.productsFromDB.length,
             itemBuilder: (BuildContext context, int index) {
-              return //Text('data');
-
-              GestureDetector(
+              
+              return GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
-                child: HorizontalCard(
-                  product: _dataProvider.allProducts[index],
-                ),
+                child: HorizontalCard( product: _dataProvider.productsFromDB[index] ),
               );
             },
           ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/providers/providers.dart';
 
 class ShowNetworkImages extends StatefulWidget {
-  const ShowNetworkImages({Key? key, required this.product}) : super(key: key);
-  final ProductModel product;
+  const ShowNetworkImages({Key? key, }) : super(key: key);
+  //final ProductModel product;
   @override
   State<ShowNetworkImages> createState() => _ShowNetworkImagesState();
 }
@@ -25,24 +24,37 @@ class _ShowNetworkImagesState extends State<ShowNetworkImages> {
             crossAxisSpacing: 2,
             crossAxisCount: 3,
           ),
-          itemCount: widget.product.images.length,
+          itemCount: _provider.product.images.length,
           itemBuilder: (BuildContext context, int index) {
-            return ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: GestureDetector(
-                  onTap: () async {
 
-                    // secuencia: 1-borrar imagen en storage, 2-borrar imagen en lista local, 3-borrar imagen en DB
-                    await _provider.deleteAnImageStorage( widget.product.images[index],);
-                    widget.product.images.removeAt(index);
-                    await _provider.deleteAnImageDB(widget.product.id, widget.product.images);
+            return GestureDetector(
 
-                  },
-                  child: Image.network(
-                    widget.product.images[index],
-                    fit: BoxFit.cover,
+              onTap: () async => await _provider.deleteAnImageStorage(index: index),
+
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(                    
+                    borderRadius: BorderRadius.circular(8),
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/placeHolder.jpg'),
+                      image: NetworkImage( _provider.product.images[index]),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ));
+
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Icon(
+                      Icons.delete_forever,
+                      color: Colors.white,
+                      size: 30,
+                    )
+                  )
+                ]
+              ),
+            );
           },
         )
       ],

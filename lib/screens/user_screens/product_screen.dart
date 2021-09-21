@@ -13,7 +13,7 @@ class ProductScreen extends StatelessWidget {
     //// recibir argumentos
     final _dataProvider = Provider.of<GetProductsProvider>(context);
     final int _index = ModalRoute.of(context)!.settings.arguments as int;
-    final _product = _dataProvider.allProducts[_index];
+    final _product = _dataProvider.productsFromDB[_index];
 
     return SafeArea(
         child: Scaffold(          
@@ -118,7 +118,7 @@ class _AddCartButton extends StatelessWidget {
 
             // Quantity item order
             Text(
-              dataProvider.allProducts[index].cartOrder.toString(),
+              dataProvider.productsFromDB[index].cartOrder.toString(),
               style: kTextMedium,
             ),
 

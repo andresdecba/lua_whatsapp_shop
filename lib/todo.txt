@@ -3,11 +3,11 @@ ADMIN SCREEN
 
 ***1- Poder borrar de a una imagen en el storage****
 
-2- Poder sumar imagenes nuevas a un producto ya existente
+***2- Poder sumar imagenes nuevas a un producto ya existente
 
 3- Hacer el uploading progresssss bar
 
-4- implementar el switch disponible
+***4- implementar el switch disponible
 
 5- Poner contraseña al acceso del admin
 
@@ -27,6 +27,6 @@ CLIENTE SCREEN
 
 OTROS
 
-1- Subir a GitHub
+***1- Subir a GitHub
 
 2- Subir a PlayStore
