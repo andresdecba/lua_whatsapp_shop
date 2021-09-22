@@ -57,8 +57,7 @@ class AdminProductsProvider extends ChangeNotifier {
   }
 
   //////// borrar una sola imagen ////////
-  Future deleteAnImageStorage({ required int index}) async {
-
+  Future deleteAnImageStorage({required int index}) async {
     try {
       //1- borrar imagen en storage, 2- borrar imagen en producto local, 3- actulizar lista de imagenes en firebase
       await FirebaseStorage.instance.refFromURL(product.images[index]).delete();
@@ -70,8 +69,10 @@ class AdminProductsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  
   //////// subir imagenes a storage ////////
-  Future _uploadImages(itemId) async {
+  double progress = 0;
+  Future uploadImages(itemId) async {
 
     if (itemId == '') {
       itemId = product.id;
@@ -84,22 +85,18 @@ class AdminProductsProvider extends ChangeNotifier {
         // subir imagen
         final uploadTask = await _storageRef.child('productsImages/$itemId/$fileName').putFile(item);
         // obtener url de la imagen subida y agregar a la lista de imgs
-        await uploadTask.ref.getDownloadURL().then((value) => product.images.add(value));
+        uploadTask.ref.getDownloadURL().then((value) => product.images.add(value));
+
+        progress += uploadTask.totalBytes * uploadTask.bytesTransferred / 100;
+        
+        notifyListeners();
       }
+      print('PROGRES::: $progress');
       imagesToUpload.clear();
     } catch (e) {
       print('error en subir imagenes: $e');
     }
   }
-
-  //////////////////
-
-
-
-
-
-
-  /////////////////
 
   //////// crear producto en el servidor////////
   //** no cambiar el orden de las instrucciones **//
@@ -108,7 +105,7 @@ class AdminProductsProvider extends ChangeNotifier {
       // create new product
       product.id = _databaseRef.push().key;
       try {
-        await _uploadImages(itemId);
+        await uploadImages(itemId);
         validateForm();
         await _createProduct().then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AllProducts()), (route) => false));
       } catch (e) {
@@ -117,7 +114,7 @@ class AdminProductsProvider extends ChangeNotifier {
     } else {
       // update product
       try {
-        await _uploadImages(itemId);
+        await uploadImages(itemId);
         validateForm();
         await _updateProduct(itemId).then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AllProducts()), (route) => false));
       } catch (e) {

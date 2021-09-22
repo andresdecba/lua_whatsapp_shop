@@ -17,7 +17,7 @@ ADMIN SCREEN
 
 CLIENTE SCREEN
 
-1- Hacer pantalla y funcionalidad para enviar al whatssApp
+***1- Hacer pantalla y funcionalidad para enviar al whatssApp
 
 2- Hacer pantalla de info y datos de contacto
 

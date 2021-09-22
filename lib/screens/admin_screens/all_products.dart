@@ -79,9 +79,10 @@ class _AllProductsState extends State<AllProducts> {
   }
 
   Future<bool> _promptUser() async {
+    
     return await showCupertinoDialog<bool>(
           context: context,
-          builder: (context) => CupertinoAlertDialog(
+          builder: (context) => AlertDialog(
             content: Text("¿Borrar producto?"),
             actions: <Widget>[
               CupertinoDialogAction(

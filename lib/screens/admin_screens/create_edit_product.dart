@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,9 @@ import 'package:wappshop_2/styles/styles.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
 class CreateEditProduct extends StatelessWidget {
-  const CreateEditProduct({Key? key,}) : super(key: key);
+  const CreateEditProduct({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +40,12 @@ class CreateEditProduct extends StatelessWidget {
 
               // subir/actualizar producto
               ElevatedButton(
-                onPressed: () async => await _provider.createUpdateProduct(context: context, itemId: _provider.product.id),
+                onPressed: () async {
+                  _promptUser(context, _provider.progress);
+                  await _provider.createUpdateProduct(context: context, itemId: _provider.product.id);
+                },
                 style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 60)),
-                child: Text(_provider.product.id == '' ? 'SUBIR PRODUCTO' : 'ACTUALIZAR PRODUCTO' ),
+                child: Text(_provider.product.id == '' ? 'SUBIR PRODUCTO' : 'ACTUALIZAR PRODUCTO'),
               ),
             ],
           ),
@@ -47,13 +53,36 @@ class CreateEditProduct extends StatelessWidget {
       ),
     ));
   }
+
+  Future<bool> _promptUser(context, double progress) async {
+    return await showCupertinoDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+
+            content: LinearProgressIndicator(
+                value: progress,
+                backgroundColor: Colors.grey,
+                color: Colors.red,
+              ),
+
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text("listo"),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              )
+            ],
+          ),
+        ) ??
+        false;
+  }
 }
 
 class _Formularios extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
+    
     final _provider = Provider.of<AdminProductsProvider>(context);
 
     return Form(
@@ -67,7 +96,7 @@ class _Formularios extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.next,
               decoration: kInputDecoration(titulo: 'Titulo'),
-              onChanged: (value) => _provider.product.title = value,/////////////
+              onChanged: (value) => _provider.product.title = value,
               validator: (value) {
                 return (value!.isEmpty) ? 'ingrese un titulo' : null;
               },
@@ -79,7 +108,7 @@ class _Formularios extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.next,
               decoration: kInputDecoration(titulo: 'Subtítulo'),
-              onChanged: (value) => _provider.product..subtitle = value,
+              onChanged: (value) => _provider.product.subtitle = value,
               validator: (value) {
                 return (value!.isEmpty) ? 'ingrese un subtítulo' : null;
               },
@@ -104,7 +133,7 @@ class _Formularios extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.done,
               decoration: kInputDecoration(titulo: 'Precio'),
-              onChanged: (value) =>  int.tryParse(value) == null ? _provider.product.price = 0 : _provider.product.price = int.parse(value), 
+              onChanged: (value) => int.tryParse(value) == null ? _provider.product.price = 0 : _provider.product.price = int.parse(value),
               validator: (value) {
                 return (value!.isEmpty) ? 'ingrese un precio' : null;
               },

@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:wappshop_2/models/product_model.dart';
 
 class GetProductsProvider extends ChangeNotifier {
@@ -15,6 +14,15 @@ class GetProductsProvider extends ChangeNotifier {
   List<ProductModel> productsFromDB = [];
   ProductModel? singleProduct;
   bool isLoading = true;
+  String usrName = '';
+  String? usrMessage = '';
+
+  // forms keys validator
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  validateForm() {
+    formKey.currentState?.validate() ?? false;
+    formKey.currentState?.save();
+  }
 
   // database reference
   final _database = FirebaseDatabase.instance.reference();
@@ -48,7 +56,7 @@ class GetProductsProvider extends ChangeNotifier {
       notifyListeners();
     });
 
-      print(':::::::::: $productsFromDB');
+    print(':::::::::: $productsFromDB');
     //this.isLoading = false;
 
     return productsFromDB;
@@ -117,7 +125,13 @@ class GetProductsProvider extends ChangeNotifier {
   }
 
   // hacer el resumen del texto para mandar por whatsaap
+
+  
+
   String enviarTextoWhatsapp() {
+    
+    print('desde fucnion $usrName');
+    String userData = '-------------------\nNombre: $usrName\nMensaje: $usrMessage\n';
     String resumenTxt = '';
     String totalpagar = '-------------------\nTotal a pagar: \$${totalAPagar().toString()}';
 
@@ -126,7 +140,7 @@ class GetProductsProvider extends ChangeNotifier {
         resumenTxt += '-------------------\nProducto: ${item.title}\nCantidad: ${item.cartOrder}\nPrecio: \$${item.price} / Total: \$${item.price * item.cartOrder}\n';
       }
     }
-    return resumenTxt += totalpagar;
+    return userData += resumenTxt += totalpagar;
   }
 
   // cerrar streams
