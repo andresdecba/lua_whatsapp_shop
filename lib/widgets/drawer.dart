@@ -9,7 +9,6 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return Container(
       color: kLightGrey,
       width: 300,
@@ -45,9 +44,23 @@ class CustomDrawer extends StatelessWidget {
           ),
           Divider(),
 
+          GestureDetector(
+            onTap: () => Navigator.popAndPushNamed(context, '/aboutScreen'),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              width: 300,
+              height: 50,
+              child: Text(
+                'Nosotros',
+                style: kTextMedium
+              )
+            ),
+          ),
+          Divider(),
+
           Spacer(),
           GestureDetector(
-            onTap: () => Navigator.popAndPushNamed(context, '/allProducts'),
+            onTap: () => Navigator.popAndPushNamed(context, '/authScreen'),
             child: Container(
               alignment: Alignment.centerLeft,
               width: 300,

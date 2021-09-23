@@ -6,7 +6,7 @@ import 'package:wappshop_2/models/product_model.dart';
 
 class GetProductsProvider extends ChangeNotifier {
   GetProductsProvider() {
-    getSingleProduct();
+    //getSingleProduct();
     getAllProducts();
   }
 
@@ -21,7 +21,6 @@ class GetProductsProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   validateForm() {
     formKey.currentState?.validate() ?? false;
-    formKey.currentState?.save();
   }
 
   // database reference
@@ -43,22 +42,17 @@ class GetProductsProvider extends ChangeNotifier {
 
   // llamar a db TODOS los prodcutos
   Future getAllProducts() async {
-    //this.isLoading = true;
-    //notifyListeners();
-
-    _getAllProductsStream = _database.child("products/").onValue.listen((event) {
-      final dbResponse = Map<String, dynamic>.from(event.snapshot.value);
-
-      productsFromDB = dbResponse.values.map((orderAsJson) {
-        return ProductModel.fromMap(Map<String, dynamic>.from(orderAsJson));
-      }).toList();
-
-      notifyListeners();
-    });
-
-    print(':::::::::: $productsFromDB');
-    //this.isLoading = false;
-
+    try {
+      _getAllProductsStream = _database.child("products/").onValue.listen((event) {
+        final dbResponse = Map<String, dynamic>.from(event.snapshot.value);
+        productsFromDB = dbResponse.values.map((orderAsJson) {
+          return ProductModel.fromMap(Map<String, dynamic>.from(orderAsJson));
+        }).toList();
+        notifyListeners();
+      });
+    } catch (e) {
+      print('Error al ontener los datos en $e');
+    }
     return productsFromDB;
   }
 
@@ -114,23 +108,16 @@ class GetProductsProvider extends ChangeNotifier {
   // calcular importe total a pagar
   int totalAPagar() {
     int total = 0;
-
     for (var item in productsFromDB) {
       if (item.onCart == true) {
         total += item.price * item.cartOrder;
       }
     }
-
     return total;
   }
 
   // hacer el resumen del texto para mandar por whatsaap
-
-  
-
   String enviarTextoWhatsapp() {
-    
-    print('desde fucnion $usrName');
     String userData = '-------------------\nNombre: $usrName\nMensaje: $usrMessage\n';
     String resumenTxt = '';
     String totalpagar = '-------------------\nTotal a pagar: \$${totalAPagar().toString()}';

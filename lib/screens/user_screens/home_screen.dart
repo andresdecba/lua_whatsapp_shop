@@ -26,9 +26,9 @@ class _List extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final _dataProvider = Provider.of<GetProductsProvider>(context);
+    final _provider = Provider.of<GetProductsProvider>(context);
 
-    //if (_dataProvider.isLoading) return IsLoading();
+    //if (_provider.isLoading) return IsLoading();
 
     return CustomScrollView(
       physics: const ScrollPhysics(),
@@ -44,12 +44,12 @@ class _List extends StatelessWidget {
             addAutomaticKeepAlives: true,
             physics: ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: _dataProvider.productsFromDB.length,
+            itemCount: _provider.productsFromDB.length,
             itemBuilder: (BuildContext context, int index) {
               
               return GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
-                child: HorizontalCard( product: _dataProvider.productsFromDB[index] ),
+                child: HorizontalCard( product: _provider.productsFromDB[index] ),
               );
             },
           ),
@@ -76,7 +76,13 @@ class _CustomAppBar extends StatelessWidget {
           children: const [
             SizedBox(
               height: 200,
-              child: Padding(padding: EdgeInsets.all(30), child: FadeInImage(placeholder: AssetImage('assets/placeHolder.jpg'), image: NetworkImage('https://via.placeholder.com/800x500'))),
+              child: Padding(
+                padding: EdgeInsets.all(30),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/placeHolder.jpg'),
+                  image: NetworkImage('https://via.placeholder.com/800x500'),
+                  ),
+                ),
             ),
           ],
         ),

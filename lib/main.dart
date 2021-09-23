@@ -21,6 +21,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => GetProductsProvider()),
         ChangeNotifierProvider(create: (_) => AdminProductsProvider()),
+        ChangeNotifierProvider(create: (_) => ConfigProvider(), lazy: false, ),
 
       ],
 
@@ -56,6 +57,10 @@ class MyApp extends StatelessWidget {
         '/checkOutScreen': (_) => CheckOutScreen(),
         '/allProducts': (_) => AllProducts(),
         '/editProduct': (_) => CreateEditProduct(),
+        '/configScreen': (_) => ConfigScreen(),
+        '/aboutScreen': (_) => AboutScreen(),
+        '/authScreen': (_) => AuthScreen(),
+
 
 
       },

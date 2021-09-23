@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/screens/screens.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
 class AllProducts extends StatefulWidget {
@@ -24,6 +23,12 @@ class _AllProductsState extends State<AllProducts> {
             drawer: CustomDrawer(),
             appBar: AppBar(
               title: Text('Administrar productos'),
+              actions: [
+                IconButton(
+                  onPressed: () => Navigator.pushNamed(context, '/configScreen'),
+                  icon: Icon(Icons.settings)
+                )
+              ],
               elevation: 0,
             ),
             floatingActionButton: FloatingActionButton.extended(

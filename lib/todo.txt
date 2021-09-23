@@ -11,7 +11,7 @@ ADMIN SCREEN
 
 5- Poner contraseña al acceso del admin
 
-6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
+***6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
 
 ----------
 
@@ -19,7 +19,7 @@ CLIENTE SCREEN
 
 ***1- Hacer pantalla y funcionalidad para enviar al whatssApp
 
-2- Hacer pantalla de info y datos de contacto
+***2- Hacer pantalla de info y datos de contacto
 
 3- Aplicar una grafica mas linda
 
