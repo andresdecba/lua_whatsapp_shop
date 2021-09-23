@@ -10,6 +10,7 @@ class ConfigScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<ConfigProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
 
     //final String number = _provider.configData.number;
 
@@ -23,42 +24,59 @@ class ConfigScreen extends StatelessWidget {
           padding: kPaddingMedium,
           child: Column(
             children: [
+
+              // Formularios
               Form(
-                  key: _provider.formKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFormField(
-                        decoration: kInputDecoration(titulo: 'Nro. de whatsApp'),
-                        keyboardType: TextInputType.number,
-                        initialValue: _provider.configData.number,
-                        onChanged: (data) => _provider.configData.number = data,
-                        validator: (value) => value!.isEmpty ? 'ingrese un numero válido' : null,
-                      ),
-                      SizedBox(height: 12),
-                      Text('Formato: +54 351 6123458 (sin los espacios)'),
-                      SizedBox(height: 24),
-                      TextFormField(
-                        maxLines: 12,
-                        decoration: kInputDecoration(titulo: 'Acerca de la empresa'),
-                        keyboardType: TextInputType.text,
-                        initialValue: _provider.configData.description,
-                        textCapitalization: TextCapitalization.sentences,
-                        onChanged: (data) => _provider.configData.description = data,
-                        validator: (value) => value!.isEmpty ? "Escriba una descripción" : null,
-                      ),
-                    ],
-                  )),
+                key: _provider.formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      decoration: kInputDecoration(titulo: 'Nro. de whatsApp'),
+                      keyboardType: TextInputType.number,
+                      initialValue: _provider.configData.number,
+                      onChanged: (data) => _provider.configData.number = data,
+                      validator: (value) => value!.isEmpty ? 'ingrese un numero válido' : null,
+                    ),
+                    SizedBox(height: 12),
+                    Text('Formato: +54 351 6123458 (sin los espacios)'),
+                    SizedBox(height: 24),
+                    TextFormField(
+                      maxLines: 12,
+                      decoration: kInputDecoration(titulo: 'Acerca de la empresa'),
+                      keyboardType: TextInputType.text,
+                      initialValue: _provider.configData.description,
+                      textCapitalization: TextCapitalization.sentences,
+                      onChanged: (data) => _provider.configData.description = data,
+                      validator: (value) => value!.isEmpty ? "Escriba una descripción" : null,
+                    ),
+                  ],
+                )
+              ),
               SizedBox(height: 12),
+
+              // guardar formularios
               ElevatedButton(
-                  onPressed: () {
-                    _provider.saveConfigData();
-                    Navigator.pushNamed(context, '/allProducts');
-                  },
-                  style: kButtonStyle,
-                  child: Text('Guardar'))
+                onPressed: () {
+                  _provider.saveConfigData();
+                  Navigator.pushNamed(context, '/allProducts');
+                },
+                style: kButtonStyle,
+                child: Text('Guardar')
+              ),
+              SizedBox(height: 40,),
+
+              // cerrar sesión
+              ElevatedButton(
+                onPressed: () async {
+                  await _authProvider.signOut();
+                  Navigator.pushNamed(context, '/');
+                },
+                style: kButtonStyle,
+                child: Text('Cerrar sesión')
+              ),
             ],
           ),
         ),

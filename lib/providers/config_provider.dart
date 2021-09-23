@@ -19,7 +19,6 @@ class ConfigProvider extends ChangeNotifier {
 
   // propiedades
   ConfigModel configData = ConfigModel(number: "", description: "");
-  bool isLoading = true;
 
   // database reference
   final _database = FirebaseDatabase.instance.reference();
@@ -38,7 +37,6 @@ class ConfigProvider extends ChangeNotifier {
     } catch (e) {
       print('Error al recuperar datos de configuración $e');
     }
-    print('config data : $configData');
     return configData;
   }
 

@@ -9,7 +9,7 @@ ADMIN SCREEN
 
 ***4- implementar el switch disponible
 
-5- Poner contraseña al acceso del admin
+***5- Poner contraseña al acceso del admin
 
 ***6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
 
