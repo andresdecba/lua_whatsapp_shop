@@ -3,6 +3,7 @@ import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/styles/styles.dart';
 
 class HorizontalCard extends StatelessWidget {
+
   const HorizontalCard({Key? key, required this.product}) : super(key: key);
   final ProductModel product;
 
@@ -17,53 +18,51 @@ class HorizontalCard extends StatelessWidget {
       child: Row(
         children: [
 
-          if (!product.available) // TODO: implementar widget disponible 
-          Text("!"),
-
+          // imagen
           ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: FadeInImage(
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage('assets/placeHolder.jpg'),
-                  image: NetworkImage((product.images.isEmpty) ? 'https://via.placeholder.com/200' : product.images.first) //'https://via.placeholder.com/200'
-                  )),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            // usamos expadnded pa que funcione el textOverflow
+            borderRadius: BorderRadius.circular(10),
+            child: FadeInImage(
+              width: 150,
+              height: 150,
+              fit: BoxFit.cover,
+              placeholder: AssetImage('assets/placeHolder.jpg'),
+              image: NetworkImage((product.images.isEmpty) ? 'https://via.placeholder.com/200' : product.images.first) //'https://via.placeholder.com/200'
+              ),
+            ),
+          SizedBox(width: 10),
+
+          // Texto con expanded para que funcione el textOverflow
+          Expanded( 
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                // titulo
                 Text(
                   product.title,
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
+                  style: TextStyle(fontSize: 22),
                   maxLines: 2,
                   overflow: TextOverflow.fade,
                 ),
-                SizedBox(
-                  height: 8,
-                ),
+                SizedBox(height: 8),
+
+                // subtitulo
                 Text(
                   product.subtitle,
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
+                  style: TextStyle(fontSize: 15),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+
+                // disponible
                 !product.available ? Text('No disponible') : SizedBox(),
                 Spacer(),
+
+                // precio
                 Text(
                   '\$ ${product.price}',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                 ),
               ],
             ),

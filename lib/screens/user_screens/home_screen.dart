@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wappshop_2/providers/get_products_provider.dart';
+import 'package:wappshop_2/providers/providers.dart';
+import 'package:wappshop_2/repositories/products_singleton.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,24 +12,20 @@ class HomeScreen extends StatelessWidget {
     return const SafeArea(
       child: Scaffold(
         drawer: CustomDrawer(),
-        body: _List(),
+        body: _BuilProductsList(),
       ),
     );
   }
 }
 
 // construir lista de productos
-class _List extends StatelessWidget {
-  const _List({
-    Key? key,
-  }) : super(key: key);
+class _BuilProductsList extends StatelessWidget {
+  const _BuilProductsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
-    final _provider = Provider.of<GetProductsProvider>(context);
-
-    //if (_provider.isLoading) return IsLoading();
+    final _products = ProductsSingleton().getProducts;
+    final _productsProvider = Provider.of<ProductsProvider>(context);
 
     return CustomScrollView(
       physics: const ScrollPhysics(),
@@ -37,20 +34,19 @@ class _List extends StatelessWidget {
         //appbar retraible
         _CustomAppBar(),
 
-        //widgets y lista de noticias
+        // listar productos
         SliverList(
             delegate: SliverChildListDelegate([
           ListView.builder(
             addAutomaticKeepAlives: true,
             physics: ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: _provider.productsFromDB.length,
+            itemCount: _products.length,
             itemBuilder: (BuildContext context, int index) {
-              
+              // navegar a la pantalla de producto
               return GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
-                child: HorizontalCard( product: _provider.productsFromDB[index] ),
-              );
+                  onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index), child: HorizontalCard(product: _products[index]) // _provider.products.getProducts[index] ),
+                  );
             },
           ),
         ]))
@@ -81,8 +77,8 @@ class _CustomAppBar extends StatelessWidget {
                 child: FadeInImage(
                   placeholder: AssetImage('assets/placeHolder.jpg'),
                   image: NetworkImage('https://via.placeholder.com/800x500'),
-                  ),
                 ),
+              ),
             ),
           ],
         ),

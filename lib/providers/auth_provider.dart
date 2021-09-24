@@ -10,7 +10,7 @@ class AuthProvider extends ChangeNotifier {
   // propiedades
   FirebaseAuth authInstance = FirebaseAuth.instance;
   String password = "";
-  bool userLoginState = false;
+  bool isSignedIn = false;
 
   // validate form
   GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -48,9 +48,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       authInstance.authStateChanges().listen((User? user) {
         if (user == null) {
-          userLoginState = false;
+          isSignedIn = false;
         } else {
-          userLoginState = true;
+          isSignedIn = true;
         }
       });
     } catch (e) {

@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wappshop_2/providers/admin_products_provider.dart';
 import 'providers/providers.dart';
 import 'screens/screens.dart';
 
@@ -19,12 +18,11 @@ class AppState extends StatelessWidget {
     ////// provider initialize
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => GetProductsProvider()),
+        ChangeNotifierProvider(create: (_) => ProductsProvider(), lazy: false,),
         ChangeNotifierProvider(create: (_) => AdminProductsProvider()),
         ChangeNotifierProvider(create: (_) => ConfigProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-
-
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
 
       ///// firebase initialize
@@ -62,14 +60,11 @@ class MyApp extends StatelessWidget {
         '/configScreen': (_) => ConfigScreen(),
         '/aboutScreen': (_) => AboutScreen(),
         '/authScreen': (_) => AuthScreen(),
-
-
-
       },
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-        primaryColor: Colors.purple,
-      ),
+      // theme: ThemeData(
+      //   fontFamily: 'Roboto',
+      //   primaryColor: Colors.purple,
+      // ),
     );
   }
 }

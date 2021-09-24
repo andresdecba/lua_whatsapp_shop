@@ -36,7 +36,7 @@ class CustomDrawer extends StatelessWidget {
           Spacer(),
           GestureDetector(
             onTap: () {
-              _provider.userLoginState == false ? Navigator.popAndPushNamed(context, '/authScreen') : Navigator.popAndPushNamed(context, '/allProducts');
+              _provider.isSignedIn == false ? Navigator.popAndPushNamed(context, '/authScreen') : Navigator.popAndPushNamed(context, '/allProducts');
             },
             child: Container(alignment: Alignment.centerLeft, width: 300, height: 50, child: Text('Admin', style: kTextMedium)),
           ),

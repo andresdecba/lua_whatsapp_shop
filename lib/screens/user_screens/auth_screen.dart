@@ -40,7 +40,7 @@ class AuthScreen extends StatelessWidget {
               onPressed: ()async {
                 await _provider.signIn();
 
-                _provider.userLoginState == true ? Navigator.pushNamed(context, '/allProducts') : SizedBox();
+                _provider.isSignedIn == true ? Navigator.pushNamed(context, '/allProducts') : SizedBox();
 
                 //TODO: llamar aviso de clave incorrecta
               },

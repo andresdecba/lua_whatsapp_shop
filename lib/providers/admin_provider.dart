@@ -7,6 +7,7 @@ import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/screens/screens.dart';
 
 class AdminProductsProvider extends ChangeNotifier {
+  
   late ProductModel product;
   List<File> imagesToUpload = [];
 

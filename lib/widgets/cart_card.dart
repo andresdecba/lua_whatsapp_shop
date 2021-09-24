@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wappshop_2/providers/get_products_provider.dart';
+import 'package:wappshop_2/providers/providers.dart';
+import 'package:wappshop_2/repositories/products_singleton.dart';
 import 'package:wappshop_2/styles/styles.dart';
 
 class CartCard extends StatelessWidget {
-  const CartCard({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
 
+  const CartCard({ Key? key,  required this.index}) : super(key: key);
   final int index;
 
   @override
   Widget build(BuildContext context) {
-    final _dataProvider = Provider.of<GetProductsProvider>(context);
-    final _product = _dataProvider.productsFromDB[index];
+
+    final _providerCart = Provider.of<CartProvider>(context);
+    final _product = ProductsSingleton().getProducts[index];
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -34,14 +33,14 @@ class CartCard extends StatelessWidget {
             width: 10,
           ),
 
-          // info, usamos expanded para que funcione el textOverflow
+          // info (expanded para que funcione el textOverflow)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _dataProvider.productsFromDB[index].title,
+                  _product.title,
                   style: kTextMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -57,24 +56,29 @@ class CartCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     // remove
-                    IconButton(onPressed: () => _dataProvider.substractCartItem2(index), icon: Icon(Icons.remove_circle)),
+                    IconButton(
+                      onPressed: () => _providerCart.substractCartItem2(index),
+                      icon: Icon(Icons.remove_circle),
+                    ),
 
                     // quantity
                     Text(
-                      _dataProvider.productsFromDB[index].cartOrder.toString(),
+                      _product.cartOrder.toString(),
                       style: kTextMedium,
                     ),
 
                     // add
-                    IconButton(onPressed: () => _dataProvider.addCartItem(index), icon: Icon(Icons.add_circle)),
+                    IconButton(
+                      onPressed: () => _providerCart.addCartItem(index),
+                      icon: Icon(Icons.add_circle),
+                    ),
                     Spacer(),
 
                     // delete item
                     IconButton(
-                        onPressed: () {
-                          _dataProvider.deleteCartItem(index);
-                        },
-                        icon: Icon(Icons.delete_forever))
+                      onPressed: () => _providerCart.deleteCartItem(index),
+                      icon: Icon(Icons.delete_forever),
+                    )
                   ],
                 )
               ],

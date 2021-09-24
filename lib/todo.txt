@@ -23,6 +23,8 @@ CLIENTE SCREEN
 
 3- Aplicar una grafica mas linda
 
+***4- refactorizar carrito
+
 -----------
 
 OTROS
