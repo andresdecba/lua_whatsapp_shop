@@ -16,40 +16,56 @@ class CartCard extends StatelessWidget {
     final _product = ProductsSingleton().getProducts[index];
 
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      height: 150,
-      decoration: BoxDecoration(color: kLightGrey, borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.symmetric(vertical: 1),
+      padding: kPaddingMedium,
+      
+      height: 140,
+      decoration: BoxDecoration(
+        color: kLightGrey,
+        //borderRadius: kBorderRadius,
+      ),
       child: Row(
         children: [
           // image
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: FadeInImage(fit: BoxFit.cover, height: 130, width: 130, placeholder: AssetImage('assets/placeHolder.jpg'), image: NetworkImage(_product.images[0]))),
+          AspectRatio(
+            aspectRatio: 3/4,
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
+              child: ClipRRect(
+                borderRadius: kBorderRadius,
+                child: FadeInImage(
+                  fit: BoxFit.cover,
+                  placeholder: AssetImage('assets/placeHolder.jpg'),
+                  image: NetworkImage(_product.images[0]),
+                ),
+              ),
+            ),
           ),
           SizedBox(
-            width: 10,
+            width: 16,
           ),
 
           // info (expanded para que funcione el textOverflow)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
+                // titulo
                 Text(
                   _product.title,
-                  style: kTextMedium,
+                  style: kTextTitleCard,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                Divider(color: kColorGris,),
                 Text(
                   'Precio: \$ ${_product.price} / Total: \$ ${_product.price*_product.cartOrder}',
-                  style: kTextSmall,
+                  style: kTextSubtitleCard,
                 ),
-                Divider(color: kMediumGrey,),
+                Divider(color: kColorGris,),
+
 
                 /////////// remove / add items
                 Row(
@@ -58,26 +74,35 @@ class CartCard extends StatelessWidget {
                     // remove
                     IconButton(
                       onPressed: () => _providerCart.substractCartItem2(index),
-                      icon: Icon(Icons.remove_circle),
+                      padding: EdgeInsets.only(right: 15),
+                      constraints: BoxConstraints(),
+                      icon: Icon(
+                        Icons.remove_circle,
+                        color: kColorGrisAzulado,
+                      ),
                     ),
 
                     // quantity
                     Text(
                       _product.cartOrder.toString(),
-                      style: kTextMedium,
+                      style: kTextMedium.copyWith(color: kColorGrisAzulado),
                     ),
 
                     // add
                     IconButton(
                       onPressed: () => _providerCart.addCartItem(index),
-                      icon: Icon(Icons.add_circle),
+                      padding: EdgeInsets.only(left: 15),
+                      constraints: BoxConstraints(),
+                      icon: Icon(Icons.add_circle, color: kColorGrisAzulado),
                     ),
                     Spacer(),
 
                     // delete item
                     IconButton(
                       onPressed: () => _providerCart.deleteCartItem(index),
-                      icon: Icon(Icons.delete_forever),
+                      padding: EdgeInsets.only(right: 15),
+                      constraints: BoxConstraints(),
+                      icon: Icon(Icons.delete_forever, color: kColorGrisAzulado,),
                     )
                   ],
                 )

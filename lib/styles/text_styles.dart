@@ -8,3 +8,11 @@ const TextStyle kTextMedium = TextStyle(fontSize: 20);
 const TextStyle kTextSmall = TextStyle(fontSize: 15);
 
 
+// textos para tarjetas
+
+
+const TextStyle kTextTitleCard = TextStyle(fontSize: 18);
+const TextStyle kTextSubtitleCard = TextStyle(fontSize: 12);
+const TextStyle kTextPriceCard = TextStyle(fontSize: 18);
+const TextStyle kTextExtaInfoCard = TextStyle(fontSize: 12);
+

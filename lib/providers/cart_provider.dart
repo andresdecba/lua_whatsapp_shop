@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wappshop_2/repositories/products_singleton.dart';
 
 class CartProvider extends ChangeNotifier {
-
   // propiedades
   String usrName = '';
   String? usrMessage = '';
@@ -63,6 +62,17 @@ class CartProvider extends ChangeNotifier {
     return contar;
   }
 
+  // contar Todos los items agregados al carrito
+  int cartTotalItemsLenght() {
+    int contar = 0;
+    for (var item in getProducts.getProducts) {
+      if (item.onCart == true) {
+        contar += item.cartOrder;
+      }
+    }
+    return contar;
+  }
+
   // calcular importe total a pagar
   int totalAPagar() {
     int total = 0;
@@ -77,6 +87,19 @@ class CartProvider extends ChangeNotifier {
   // hacer el resumen del texto para mandar por whatsaap
   String enviarTextoWhatsapp() {
     String userData = '-------------------\nNombre: $usrName\nMensaje: $usrMessage\n';
+    String resumenTxt = '';
+    String totalpagar = '-------------------\nTotal a pagar: \$${totalAPagar().toString()}';
+
+    for (var item in getProducts.getProducts) {
+      if (item.onCart == true) {
+        resumenTxt += '-------------------\nProducto: ${item.title}\nCantidad: ${item.cartOrder}\nPrecio: \$${item.price} / Total: \$${item.price * item.cartOrder}\n';
+      }
+    }
+    return userData += resumenTxt += totalpagar;
+  }
+
+  String showOrderDetails() {
+    String userData = '-------------------\nDETALLE DE TU PEDIDO:\n';
     String resumenTxt = '';
     String totalpagar = '-------------------\nTotal a pagar: \$${totalAPagar().toString()}';
 

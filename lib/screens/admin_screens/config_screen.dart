@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/styles/decorators.dart';
-import 'package:wappshop_2/styles/spacers.dart';
+import 'package:wappshop_2/styles/styles.dart';
 
 class ConfigScreen extends StatelessWidget {
   const ConfigScreen({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class ConfigScreen extends StatelessWidget {
                       validator: (value) => value!.isEmpty ? 'ingrese un numero válido' : null,
                     ),
                     SizedBox(height: 12),
-                    Text('Formato: +54 351 6123458 (sin los espacios)'),
+                    Text('Formato: +54 351 6123458 (sin los espacios)', style: TextStyle(color: kColorGris, fontStyle: FontStyle.italic),),
                     SizedBox(height: 24),
                     TextFormField(
                       maxLines: 12,
@@ -64,9 +63,12 @@ class ConfigScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/allProducts');
                 },
                 style: kButtonStyle,
-                child: Text('Guardar')
+                child: Text('Guardar configuración')
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 20,),
+              Divider(),
+              SizedBox(height: 20,),
+
 
               // cerrar sesión
               ElevatedButton(
@@ -75,7 +77,7 @@ class ConfigScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/');
                 },
                 style: kButtonStyle,
-                child: Text('Cerrar sesión')
+                child: Text('Cerrar sesión de administrador')
               ),
             ],
           ),

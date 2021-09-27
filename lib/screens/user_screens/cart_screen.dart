@@ -24,34 +24,15 @@ class CartScreen extends StatelessWidget {
             elevation: 0,
           ),
 
-          // pie de pantalla: ver total y gacer pedido
-          bottomNavigationBar: Container(
-            padding: kPaddingBig,
-            alignment: Alignment.centerLeft,
-            height: 100,
-            width: double.infinity,
-            color: kMediumGrey,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total: \$ ${_cartProvider.totalAPagar()}',
-                  style: kTextBig,
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/checkOutScreen'),
-                  child: Text(
-                    'Hacer pedido',
-                    style: kTextMedium,
-                  ),
-                )
-              ],
-            ),
-          ),
-
+          // boton enviar
+          // floatingActionButton: FloatingButton(
+          //   widget: Text('Hacer pedido', style: kTextMedium.copyWith(color: kWithe)),
+          //   onTap: () => Navigator.pushNamed(context, '/checkOutScreen') ,
+          // ),
+          
           // body
           body: _cartProvider.cartItemsLenght() == 0
-          ? Center(child: Text('no hay nada en el carro :('))
+          ? Center(child: Text('Tu carrito está vacío :('))
           : SingleChildScrollView(
               physics: ScrollPhysics(),
               child: Column(
@@ -71,7 +52,61 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+
+          // pie de pantalla: ver total y enviar pedido
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+            alignment: Alignment.centerRight,
+            height: 80,
+            width: double.infinity,
+            color: kColorGris,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total: \$ ${_cartProvider.totalAPagar()}',
+                      style: kTextTitleCard,
+                    ),
+                    //Divider(),
+                    Text(
+                      'Productos: ${_cartProvider.cartTotalItemsLenght()}',
+                      style: kTextSubtitleCard,
+                    ),
+                  ],
+                ),
+                FloatingButton(
+                  widget: Text('Hacer pedido', style: kTextMedium.copyWith(color: kWithe)),
+                  onTap: () => Navigator.pushNamed(context, '/checkOutScreen') ,
+                )
+              ],
+            ),
           ),
+        ),
     );
   }
 }
+
+
+
+/*
+ElevatedButton(
+                  onPressed: () => Navigator.pushNamed(context, '/checkOutScreen'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        ' Enviar pedido',
+                        style: kTextSmall,
+                      ),
+                      Icon(Icons.arrow_right_outlined)
+                    ],
+                  ),
+                )
+
+
+*/

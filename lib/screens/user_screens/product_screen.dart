@@ -4,14 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
 import 'package:wappshop_2/repositories/products_singleton.dart';
 import 'package:wappshop_2/styles/styles.dart';
+import 'package:wappshop_2/widgets/widgets.dart';
 
 class ProductScreen extends StatelessWidget {
-
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     var _products = ProductsSingleton().getProducts;
 
     // recibir los datos del producto desde el Home Screen
@@ -30,17 +29,25 @@ class ProductScreen extends StatelessWidget {
 
         // body
         body: ListView(
-          padding: EdgeInsets.only(top: 20, bottom: 80),
+          padding: EdgeInsets.only(top: 20, bottom: 90),
           physics: ScrollPhysics(),
           children: [
             ////////// imagenes
             CarouselSlider(
-              options: CarouselOptions(height: 400, autoPlay: true, disableCenter: true, enlargeCenterPage: true),
+              options: CarouselOptions(
+                height: 400,
+                autoPlay: true,
+                disableCenter: true,
+                enlargeCenterPage: true,
+              ),
               items: _product.images.map((image) {
-                return FadeInImage(
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage('assets/placeHolder.jpg'),
-                  image: NetworkImage(image),
+                return ClipRRect(
+                  borderRadius: kBorderRadius,
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('assets/placeHolder.jpg'),
+                    image: NetworkImage(image),
+                  ),
                 );
               }).toList(),
             ),
@@ -56,28 +63,49 @@ class ProductScreen extends StatelessWidget {
                     // titulo
                     Text(
                       _product.title,
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                     ),
-                    Divider(height: 20),
+                    //Divider(height: 20),
+                    SizedBox(
+                      height: 20,
+                    ),
 
                     // subtitulo
                     Text(
                       _product.subtitle,
-                      style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
-                    Divider(height: 20),
+                    SizedBox(
+                      height: 20,
+                    ),
 
-                    // precio
-                    Text(
-                      '\$ ${_product.price}',
-                      style: TextStyle(fontSize: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // precio
+                        Text(
+                          '\$ ${_product.price}',
+                          style: TextStyle(fontSize: 25),
+                        ),
+
+                        // disponible
+                        !_product.available
+                          ? Text(
+                            'No disponible',
+                            style: TextStyle(fontSize: 14, color: Colors.orange),
+                          )
+                          : SizedBox(),
+                      ],
                     ),
-                    Divider(height: 20),
+                    Divider(
+                      height: 20,
+                      thickness: 1,
+                    ),
 
                     // description
                     Text(
                       _product.description,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ],
                 ),
@@ -98,34 +126,114 @@ class _AddCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final _cartProvider = Provider.of<CartProvider>(context);
 
-    return Container(
-      width: 220,
-      padding: kPaddingSmall,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(40), color: Colors.blueAccent),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return FloatingButton(
+      widget: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Substract order quantity
-          IconButton(onPressed: () => _cartProvider.substractCartItem(index), icon: Icon(Icons.remove_circle)),
-
-          // Cantidad de items pedidos
-          Text(
-            _cartProvider.getProducts.getProducts[index].cartOrder.toString(),
-            style: kTextMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Substract order quantity
+              IconButton(
+                onPressed: () => _cartProvider.substractCartItem(index),
+                icon: Icon(Icons.remove_circle),
+                constraints: BoxConstraints(),
+                padding: EdgeInsets.all(8),
+              ),
+              // Cantidad de items pedidos
+              Text(
+                _cartProvider.getProducts.getProducts[index].cartOrder.toString(),
+                style: kTextMedium,
+              ),
+              // Add order quantity
+              IconButton(
+                onPressed: () => _cartProvider.addCartItem(index),
+                padding: EdgeInsets.all(8),
+                constraints: BoxConstraints(),
+                icon: Icon(Icons.add_circle),
+              ),
+            ],
           ),
+          SizedBox(width: 10),
+          Icon(Icons.circle, size: 7, color: Colors.white.withOpacity(0.5)),
+          SizedBox(width: 18),
 
-          // Add order quantity
-          IconButton(onPressed: () => _cartProvider.addCartItem(index), icon: Icon(Icons.add_circle)),
-          SizedBox(width: 30),
-
-          // Cart icon
-          Text(
-            _cartProvider.cartItemsLenght().toString(),
-            style: kTextMedium,
+          // cantidad pedida
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                _cartProvider.cartItemsLenght().toString(),
+                style: kTextMedium.copyWith(color: kWithe),
+              ),
+              IconButton(
+                onPressed: () => Navigator.pushNamed(context, '/cartScreen'),
+                padding: EdgeInsets.all(8),
+                constraints: BoxConstraints(),
+                icon: Icon(Icons.shopping_cart, color: kWithe),
+              ),
+            ],
           ),
-          IconButton(onPressed: () => Navigator.pushNamed(context, '/cartScreen'), icon: Icon(Icons.shopping_cart)),
         ],
       ),
     );
   }
 }
+
+
+
+
+
+/*
+
+Container(
+      width: 200,
+      height: 60,
+      padding: EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        color: kColorCeleste,
+      ),
+      child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+
+                // Substract order quantity
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () => _cartProvider.substractCartItem(index),
+                      icon: Icon(Icons.remove_circle),
+                    ),
+                    // Cantidad de items pedidos
+                    Text(
+                      _cartProvider.getProducts.getProducts[index].cartOrder.toString(),
+                      style: kTextMedium,
+                    ),
+
+                    // Add order quantity
+                    IconButton(onPressed: () => _cartProvider.addCartItem(index), icon: Icon(Icons.add_circle)),
+                  ],
+                ),
+
+                // cantidad pedida
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      _cartProvider.cartItemsLenght().toString(),
+                      style: kTextMedium.copyWith(color: kWithe),
+                    ),
+                    IconButton(onPressed: () => Navigator.pushNamed(context, '/cartScreen'),
+                      icon: Icon(Icons.shopping_cart, color: kWithe,),
+                    ),
+                  ],
+                ),
+                
+              ],
+            ),      
+    );
+
+
+*/

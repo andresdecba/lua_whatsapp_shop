@@ -5,10 +5,10 @@ import 'package:wappshop_2/models/product_model.dart';
 import 'package:wappshop_2/repositories/products_singleton.dart';
 
 class ProductsProvider extends ChangeNotifier {
-
   // llamar todos los productos al iniciar
   ProductsProvider() {
     getAllProducts();
+    getAboutScreen();
   }
 
   // propiedades
@@ -47,6 +47,19 @@ class ProductsProvider extends ChangeNotifier {
       print('Error al ontener los datos en $e');
     }
     return products;
+  }
+
+  // TODO: hacer modelo para subir y bajar la info de about
+  // llamar a descripcion about screen
+  Future getAboutScreen() async {
+    _getSingleProductStream = _database.child("config/description").onValue.listen((event) {
+      final dbResponse = event.snapshot.value.toString(); // Map<String, dynamic>.from(event.snapshot.value);
+
+      print('::::::::: $dbResponse');
+      //singleProduct = ProductModel.fromMap(dbResponse);
+      notifyListeners();
+    });
+    //return dbResponse;
   }
 
   // cerrar streams

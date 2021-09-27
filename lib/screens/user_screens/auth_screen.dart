@@ -19,12 +19,13 @@ class AuthScreen extends StatelessWidget {
       body: Padding(
         padding: kPaddingMedium,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 80,),
             Text(
               'Ingreso al administrador',
-              style: TextStyle(fontSize: 20),
+              style: kTextTitleCard,
             ),
             SizedBox(height: 20),
             Form(

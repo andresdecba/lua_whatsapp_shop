@@ -13,6 +13,10 @@ ADMIN SCREEN
 
 ***6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
 
+7- Hacer modelo de la pagina de "nosotros", subir fotos y datos a firebase
+
+8- Hacer cache de imagenes y persistencia de datos.
+
 ----------
 
 CLIENTE SCREEN
@@ -21,7 +25,7 @@ CLIENTE SCREEN
 
 ***2- Hacer pantalla de info y datos de contacto
 
-3- Aplicar una grafica mas linda
+***3- Aplicar una grafica mas linda
 
 ***4- refactorizar carrito
 

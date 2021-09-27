@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
 import 'package:wappshop_2/styles/styles.dart';
+import 'package:wappshop_2/widgets/widgets.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,9 +29,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       ),
 
       // boton enviar 
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+      floatingActionButton: FloatingButton(
+       widget: Text('Enviar !', style: kTextMedium.copyWith(color: kWithe)),
+        onTap: () {
           if (_provider.formKey.currentState!.validate()) {
+
             // mostrar dialogo
             _promptUser(context);
 
@@ -52,9 +55,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             });
           }
         },
-        label: Text('Enviar !'),
+        
       ),
-
+      
       // body
       body: SingleChildScrollView(
         padding: kPaddingMedium,
@@ -62,6 +65,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: kPaddingMedium,
+              //height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: kColorGris
+              ),
+              child: Text('Completa la información con tu nombre y un mensaje opcional. Al presionar "Enviar" se abrirá whatsapp para que puedas enviar tu pedido y proseguir con la venta por allí.  ' ),
+            ),
+            SizedBox(height: 12,),
+
+            // Formularios: Nombre y mensaje
             Form(
               key: _provider.formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -74,7 +92,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: kInputDecoration(titulo: 'Tu nombre'),
                     onChanged: (value) => _provider.usrName = value,
-                    validator: (value) => (value!.isEmpty) ? 'ingrese un titulo' : null,
+                    validator: (value) => (value!.isEmpty) ? 'ingresa tu nombre' : null,
                   ),
                   SizedBox(height: 12),
                   TextFormField(
@@ -91,9 +109,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ),
             SizedBox(height: 12),
             Text(
-              _provider.enviarTextoWhatsapp(),
+              _provider.showOrderDetails(),
               textAlign: TextAlign.left,
             ),
+            SizedBox(height: 80,)
           ],
         ),
       ),

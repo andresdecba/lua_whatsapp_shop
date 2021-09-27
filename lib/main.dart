@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wappshop_2/styles/colores.dart';
 import 'providers/providers.dart';
 import 'screens/screens.dart';
 
@@ -48,6 +49,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      theme: ThemeData(
+        fontFamily: 'Roboto',
+
+        appBarTheme: AppBarTheme(
+          backgroundColor: kColorPink,
+          elevation: 0,
+          toolbarHeight: 50,
+          titleTextStyle: TextStyle(fontSize: 16,),
+        ),
+
+        
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+          primary: kColorGrisAzulado,
+        ),)
+      ),
+
       title: 'Material App',
       initialRoute: '/',
       routes: {
@@ -61,10 +80,7 @@ class MyApp extends StatelessWidget {
         '/aboutScreen': (_) => AboutScreen(),
         '/authScreen': (_) => AuthScreen(),
       },
-      // theme: ThemeData(
-      //   fontFamily: 'Roboto',
-      //   primaryColor: Colors.purple,
-      // ),
+      
     );
   }
 }

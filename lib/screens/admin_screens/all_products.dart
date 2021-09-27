@@ -80,7 +80,7 @@ class _AllProductsState extends State<AllProducts> {
                         _products.removeAt(index);
                       });
                     },
-                    child: HorizontalCard(product: _products[index])),
+                    child: ProductCard(product: _products[index])),
               );
             },
           ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
@@ -14,34 +13,78 @@ class CustomDrawer extends StatelessWidget {
 
     return Container(
       color: kLightGrey,
-      width: 300,
+      width: 250,
       padding: kPaddingBig,
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false),
-            child: Container(alignment: Alignment.centerLeft, width: 300, height: 50, child: Text('Home', style: kTextMedium)),
+          _DrawerButton(
+            texto: 'home',
+            icon: Icon(Icons.home, color: kColorGrisAzulado),
+            link: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false),
           ),
-          Divider(),
-          GestureDetector(
-            onTap: () => Navigator.popAndPushNamed(context, '/cartScreen'),
-            child: Container(alignment: Alignment.centerLeft, width: 300, height: 50, child: Text('Carrito', style: kTextMedium)),
+          _DrawerButton(
+            texto: 'Carrito',
+            icon: Icon(Icons.shopping_cart, color: kColorGrisAzulado,),
+            link: () => Navigator.popAndPushNamed(context, '/cartScreen'),
           ),
-          Divider(),
-          GestureDetector(
-            onTap: () => Navigator.popAndPushNamed(context, '/aboutScreen'),
-            child: Container(alignment: Alignment.centerLeft, width: 300, height: 50, child: Text('Nosotros', style: kTextMedium)),
+          _DrawerButton(
+            texto: 'Nosotros',
+            icon: Icon(Icons.info, color: kColorGrisAzulado),
+            link: () => Navigator.popAndPushNamed(context, '/aboutScreen'),
           ),
           Divider(),
           Spacer(),
+
+          // entrar al admin
           GestureDetector(
-            onTap: () {
-              _provider.isSignedIn == false ? Navigator.popAndPushNamed(context, '/authScreen') : Navigator.popAndPushNamed(context, '/allProducts');
-            },
-            child: Container(alignment: Alignment.centerLeft, width: 300, height: 50, child: Text('Admin', style: kTextMedium)),
+            onTap: () => _provider.isSignedIn == false ? Navigator.popAndPushNamed(context, '/authScreen') : Navigator.popAndPushNamed(context, '/allProducts'),
+            child: Container(
+              alignment: Alignment.center,
+              width: 300,
+              height: 75,
+              child: Opacity(
+                opacity: 0.3,
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/placeHolder.jpg'),
+                  image: AssetImage('assets/lua-logo.png'),
+                ),
+              ),
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _DrawerButton extends StatelessWidget {
+  const _DrawerButton({Key? key, required this.texto, required this.link, required this.icon}) : super(key: key);
+
+  final String texto;
+  final VoidCallback link;
+  final Icon icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Divider(),
+        GestureDetector(
+          onTap: link,
+          child: Container(
+            alignment: Alignment.centerLeft,
+            width: 300,
+            height: 50,
+            child: Row(
+              children: [
+                icon,
+                SizedBox(width: 25),
+                Text(texto, style: kTextTitleCard),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

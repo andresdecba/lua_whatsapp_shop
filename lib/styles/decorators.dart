@@ -9,3 +9,5 @@ InputDecoration kInputDecoration({required String titulo}) {
 }
 
 final kButtonStyle = ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 40));
+
+final kBorderRadius = BorderRadius.circular(6);
