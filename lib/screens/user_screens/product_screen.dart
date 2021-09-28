@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/styles.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
@@ -11,7 +12,7 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _products = ProductsSingleton().getProducts;
+    var _products = Repositories().getProducts;
 
     // recibir los datos del producto desde el Home Screen
     final int _index = ModalRoute.of(context)!.settings.arguments as int;
@@ -46,7 +47,7 @@ class ProductScreen extends StatelessWidget {
                   child: FadeInImage(
                     fit: BoxFit.cover,
                     placeholder: AssetImage('assets/placeHolder.jpg'),
-                    image: NetworkImage(image),
+                    image: CachedNetworkImageProvider(image), //NetworkImage(image),
                   ),
                 );
               }).toList(),

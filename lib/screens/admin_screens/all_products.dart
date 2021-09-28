@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
 class AllProducts extends StatefulWidget {
@@ -18,7 +18,7 @@ class _AllProductsState extends State<AllProducts> {
   Widget build(BuildContext context) {
 
     final _adminProvider = Provider.of<AdminProductsProvider>(context);
-    final _products = ProductsSingleton().getProducts;
+    final _products = Repositories().getProducts;
 
     return SafeArea(
     child: Scaffold(
@@ -56,6 +56,8 @@ class _AllProductsState extends State<AllProducts> {
             shrinkWrap: true,
             itemCount: _products.length,
             itemBuilder: (BuildContext context, int index) {
+
+              // edit existing prodcut
               return GestureDetector(
                 onTap: () {
                   _adminProvider.product = _products[index].copy();

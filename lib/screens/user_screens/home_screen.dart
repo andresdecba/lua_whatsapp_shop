@@ -1,7 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/colores.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
@@ -25,14 +24,12 @@ class _BuilProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _products = ProductsSingleton().getProducts;
-    final _productsProvider = Provider.of<ProductsProvider>(context);
+    final _products = Repositories().getProducts;
 
     return CustomScrollView(
       physics: const ScrollPhysics(),
       shrinkWrap: true,
       slivers: [
-
         //appbar sliver
         _CustomAppBar(),
 
@@ -47,9 +44,9 @@ class _BuilProductsList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               // navegar a la pantalla de producto
               return GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
-                  child: ProductCard(product: _products[index]), // _provider.products.getProducts[index] ),
-                  );
+                onTap: () => Navigator.pushNamed(context, '/productScreen', arguments: index),
+                child: ProductCard(product: _products[index]),
+              );
             },
           ),
         ]))
@@ -60,6 +57,9 @@ class _BuilProductsList extends StatelessWidget {
 
 // cabecera, LOGO
 class _CustomAppBar extends StatelessWidget {
+  
+  final _repository = Repositories();
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -77,19 +77,27 @@ class _CustomAppBar extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [kColorPink, Colors.white],
                   begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter
+                  end: Alignment.bottomCenter,
                 ),
               ),
             ),
             Center(
-
+              //TODO: ver si se puede poner que tome el logo desde internet, aparentemente el delay es el problema
               child: SizedBox(
                 height: 200,
                 child: Padding(
                   padding: EdgeInsets.all(30),
+                  // child: CachedNetworkImage(
+                  //   placeholder: (context, url) => Image.asset('assets/placeHolder.jpg'),
+                  //   imageUrl: _repository.configModel.logoImage,
+                  //   fit: BoxFit.contain,
+                  // )
                   child: FadeInImage(
                     placeholder: AssetImage('assets/placeHolder.jpg'),
-                    image: AssetImage('assets/lua-logo.png'),//NetworkImage('https://via.placeholder.com/800x500'),
+                    image: AssetImage('assets/lua-logo.png'),
+                    //AssetImage('assets/lua-logo.png')
+                    //NetworkImage(_repository.configModel.logoImage),
+                    //CachedNetworkImageProvider(_repository.configModel.logoImage),
                   ),
                 ),
               ),

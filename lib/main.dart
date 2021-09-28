@@ -16,17 +16,17 @@ class AppState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ////// provider initialize
+    ////// provider initializer
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductsProvider(), lazy: false,),
+        ChangeNotifierProvider(create: (_) => ConfigProvider(), lazy: false,),
         ChangeNotifierProvider(create: (_) => AdminProductsProvider()),
-        ChangeNotifierProvider(create: (_) => ConfigProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
 
-      ///// firebase initialize
+      ///// firebase initializer
       child: FutureBuilder(
         future: _fbApp,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           primary: kColorGrisAzulado,
         ),)
       ),
-
+      debugShowCheckedModeBanner: false,
       title: 'Material App',
       initialRoute: '/',
       routes: {

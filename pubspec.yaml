@@ -27,7 +27,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.1.1
   firebase_core: ^1.6.0
@@ -35,10 +34,12 @@ dependencies:
   firebase_storage: ^10.0.3
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
   image_picker: ^0.8.4
   provider: ^6.0.0
   url_launcher: ^6.0.11
   whatsapp_unilink: ^2.0.0
+  cached_network_image: ^3.1.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0

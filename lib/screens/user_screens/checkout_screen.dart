@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/styles.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
@@ -15,25 +16,25 @@ class CheckOutScreen extends StatefulWidget {
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
 
+  final _repository = Repositories();
+
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<CartProvider>(context);
 
     return SafeArea(
-      child: Scaffold(
-
+        child: Scaffold(
       // appbar
       appBar: AppBar(
         title: Text('Enviar pedido'),
         elevation: 0,
       ),
 
-      // boton enviar 
+      // boton enviar
       floatingActionButton: FloatingButton(
-       widget: Text('Enviar !', style: kTextMedium.copyWith(color: kWithe)),
+        widget: Text('Enviar !', style: kTextMedium.copyWith(color: kWithe)),
         onTap: () {
           if (_provider.formKey.currentState!.validate()) {
-
             // mostrar dialogo
             _promptUser(context);
 
@@ -55,9 +56,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             });
           }
         },
-        
       ),
-      
+
       // body
       body: SingleChildScrollView(
         padding: kPaddingMedium,
@@ -65,19 +65,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Container(
               alignment: Alignment.centerLeft,
               padding: kPaddingMedium,
               //height: 50,
               width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: kColorGris
-              ),
-              child: Text('Completa la información con tu nombre y un mensaje opcional. Al presionar "Enviar" se abrirá whatsapp para que puedas enviar tu pedido y proseguir con la venta por allí.  ' ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: kColorGris),
+              child:
+                  Text('Completa la información con tu nombre y un mensaje opcional. Al presionar "Enviar" se abrirá whatsapp para que puedas enviar tu pedido y proseguir con la venta por allí.  '),
             ),
-            SizedBox(height: 12,),
+            SizedBox(
+              height: 12,
+            ),
 
             // Formularios: Nombre y mensaje
             Form(
@@ -112,7 +111,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               _provider.showOrderDetails(),
               textAlign: TextAlign.left,
             ),
-            SizedBox(height: 80,)
+            SizedBox(
+              height: 80,
+            )
           ],
         ),
       ),
@@ -122,7 +123,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   // lanzar a whatsapp
   launchWhatsApp(String text) async {
     final link = WhatsAppUnilink(
-      phoneNumber: '+0543516639258',
+      phoneNumber: _repository.configModel.number, // '+0543516639258',
       text: text,
     );
     await launch('$link');

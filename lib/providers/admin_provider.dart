@@ -75,6 +75,7 @@ class AdminProductsProvider extends ChangeNotifier {
   double progress = 0;
   Future uploadImages(itemId) async {
 
+    // validar si producto existente o nuevo
     if (itemId == '') {
       itemId = product.id;
     }

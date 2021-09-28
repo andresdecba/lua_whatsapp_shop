@@ -10,10 +10,4 @@ class CartItemModel {
   ProductModel producto;
   int cantidad = 0;
   int total;
-
-  // factory CartItemModel.fromMap(Map<String, dynamic> json) => CartItemModel(
-  //   producto: json['producto'],
-  //   cantidad: json['cantidad'],
-  //   total: json['total'],
-  // );
 }

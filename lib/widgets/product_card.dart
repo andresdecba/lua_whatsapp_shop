@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wappshop_2/models/models.dart';
 import 'package:wappshop_2/styles/styles.dart';
@@ -28,12 +29,10 @@ class ProductCard extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 3/4,
                   child: FadeInImage(
-                    fit: BoxFit.cover,
-                    placeholder: AssetImage('assets/placeHolder.jpg'),
-                    image: NetworkImage(
-                      product.images.isEmpty ? 'assets/placeHolder.jpg' : product.images.first                  
-                    ) //'https://via.placeholder.com/200'
-                    ),
+                   fit: BoxFit.cover,
+                   placeholder: AssetImage('assets/placeHolder.jpg'),
+                   image: CachedNetworkImageProvider(product.images.first),
+                  ),
                 ),
                 ),
               SizedBox(width: 15),

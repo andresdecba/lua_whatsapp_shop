@@ -5,7 +5,7 @@ ADMIN SCREEN
 
 ***2- Poder sumar imagenes nuevas a un producto ya existente
 
-3- Hacer el uploading progresssss bar
+3- Hacer el uploading progres bar
 
 ***4- implementar el switch disponible
 
@@ -13,9 +13,11 @@ ADMIN SCREEN
 
 ***6- Hacer pantalla de configuracion (nro de celu y datos de contacto)
 
-7- Hacer modelo de la pagina de "nosotros", subir fotos y datos a firebase
+***7- Hacer modelo de la pagina de "nosotros" y subir datos a firebase
 
-8- Hacer cache de imagenes y persistencia de datos.
+***8- Hacer cache de imagenes.
+
+9- hacer persistencia de datos con hive o sql lite
 
 ----------
 

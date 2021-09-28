@@ -3,30 +3,40 @@
 
 import 'dart:convert';
 
-ConfigModel configModelFromMap(String str) => ConfigModel.fromMap(json.decode(str));
-String configModelToMap(ConfigModel data) => json.encode(data.toMap());
-
 class ConfigModel {
-    ConfigModel({
-        required this.number,
-        required this.description,
-    });
+  ConfigModel({
+    required this.description,
+    required this.number,
+    required this.logoImage,
+    required this.eMail,
+  });
 
-    String number;
-    String description;
+  String description;
+  String logoImage;
+  String number;
+  String eMail;
 
-    factory ConfigModel.fromMap(Map<String, dynamic> json) => ConfigModel(
-        number: json["number"],
+  factory ConfigModel.fromJson(String str) => ConfigModel.fromMap(json.decode(str));
+  String toJson() => json.encode(toMap());
+
+  factory ConfigModel.fromMap(Map<String, dynamic> json) => ConfigModel(
         description: json["description"],
-    );
+        number: json["number"],
+        logoImage: json["logoImage"],
+        eMail: json["eMail"]
+      );
 
-    Map<String, dynamic> toMap() => {
-        "number": number,
+  Map<String, dynamic> toMap() => {
         "description": description,
-    };
+        "number": number,
+        "logoImage": logoImage,
+        "eMail": eMail,
+      };
 
-    @override
-    String toString() {
-      return 'whatsappNumber: $number, aboutDescription: $description';
-    }
+  ConfigModel copy() => ConfigModel(description: description, number: number, logoImage: logoImage, eMail: eMail);
+
+  @override
+  String toString() {
+    return 'whatsappNumber222: $number, aboutDescription: $description, logoImage: $logoImage, email: $eMail';
+  }
 }

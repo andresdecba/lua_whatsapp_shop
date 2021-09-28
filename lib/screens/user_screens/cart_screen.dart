@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/styles.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
 
@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final _cartProvider = Provider.of<CartProvider>(context);
-    final _products = ProductsSingleton().getProducts;
+    final _products = Repositories().getProducts;
 
     return SafeArea(
       
@@ -24,12 +24,6 @@ class CartScreen extends StatelessWidget {
             elevation: 0,
           ),
 
-          // boton enviar
-          // floatingActionButton: FloatingButton(
-          //   widget: Text('Hacer pedido', style: kTextMedium.copyWith(color: kWithe)),
-          //   onTap: () => Navigator.pushNamed(context, '/checkOutScreen') ,
-          // ),
-          
           // body
           body: _cartProvider.cartItemsLenght() == 0
           ? Center(child: Text('Tu carrito está vacío :('))
@@ -52,7 +46,6 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-
 
           // pie de pantalla: ver total y enviar pedido
           bottomNavigationBar: Container(
@@ -90,23 +83,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-/*
-ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/checkOutScreen'),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        ' Enviar pedido',
-                        style: kTextSmall,
-                      ),
-                      Icon(Icons.arrow_right_outlined)
-                    ],
-                  ),
-                )
-
-
-*/

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 
 class CartProvider extends ChangeNotifier {
   // propiedades
   String usrName = '';
   String? usrMessage = '';
-  final getProducts = ProductsSingleton();
+  final getProducts = Repositories();
 
   // forms keys validator
   GlobalKey<FormState> formKey = GlobalKey<FormState>();

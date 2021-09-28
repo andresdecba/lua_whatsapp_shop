@@ -67,7 +67,8 @@ class ProductModel {
     subtitle: subtitle,
     title: title,
     onCart: onCart,
-    cartOrder: cartOrder);
+    cartOrder: cartOrder
+  );
 
   @override
   String toString() {

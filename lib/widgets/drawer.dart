@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/screens/screens.dart';
 import 'package:wappshop_2/styles/styles.dart';
 
@@ -10,6 +12,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<AuthProvider>(context);
+    final _repository = Repositories();
 
     return Container(
       color: kLightGrey,
@@ -17,17 +20,20 @@ class CustomDrawer extends StatelessWidget {
       padding: kPaddingBig,
       child: Column(
         children: [
-          _DrawerButton(
+          _Item(
             texto: 'home',
             icon: Icon(Icons.home, color: kColorGrisAzulado),
             link: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false),
           ),
-          _DrawerButton(
+          _Item(
             texto: 'Carrito',
-            icon: Icon(Icons.shopping_cart, color: kColorGrisAzulado,),
+            icon: Icon(
+              Icons.shopping_cart,
+              color: kColorGrisAzulado,
+            ),
             link: () => Navigator.popAndPushNamed(context, '/cartScreen'),
           ),
-          _DrawerButton(
+          _Item(
             texto: 'Nosotros',
             icon: Icon(Icons.info, color: kColorGrisAzulado),
             link: () => Navigator.popAndPushNamed(context, '/aboutScreen'),
@@ -46,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
                 opacity: 0.3,
                 child: FadeInImage(
                   placeholder: AssetImage('assets/placeHolder.jpg'),
-                  image: AssetImage('assets/lua-logo.png'),
+                  image: CachedNetworkImageProvider(_repository.configModel.logoImage),
                 ),
               ),
             ),
@@ -57,8 +63,8 @@ class CustomDrawer extends StatelessWidget {
   }
 }
 
-class _DrawerButton extends StatelessWidget {
-  const _DrawerButton({Key? key, required this.texto, required this.link, required this.icon}) : super(key: key);
+class _Item extends StatelessWidget {
+  const _Item({Key? key, required this.texto, required this.link, required this.icon}) : super(key: key);
 
   final String texto;
   final VoidCallback link;

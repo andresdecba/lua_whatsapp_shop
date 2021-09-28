@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wappshop_2/providers/providers.dart';
-import 'package:wappshop_2/repositories/products_singleton.dart';
+import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/styles.dart';
 
 class CartCard extends StatelessWidget {
@@ -13,7 +14,7 @@ class CartCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final _providerCart = Provider.of<CartProvider>(context);
-    final _product = ProductsSingleton().getProducts[index];
+    final _product = Repositories().getProducts[index];
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 1),
@@ -36,7 +37,7 @@ class CartCard extends StatelessWidget {
                 child: FadeInImage(
                   fit: BoxFit.cover,
                   placeholder: AssetImage('assets/placeHolder.jpg'),
-                  image: NetworkImage(_product.images[0]),
+                  image: CachedNetworkImageProvider(_product.images.first), //NetworkImage(_product.images[0]),
                 ),
               ),
             ),
