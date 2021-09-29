@@ -22,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
   Future signIn() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: "admin@whatsappshop2.com",
+        email: "andresdecba@gmail.com",
         password: password,
       );
     } on FirebaseAuthException catch (e) {

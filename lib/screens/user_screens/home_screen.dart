@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wappshop_2/providers/providers.dart';
 import 'package:wappshop_2/repositories/repositories.dart';
 import 'package:wappshop_2/styles/colores.dart';
 import 'package:wappshop_2/widgets/widgets.dart';
@@ -25,6 +27,7 @@ class _BuilProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _products = Repositories().getProducts;
+    final _provider = Provider.of<ProductsProvider>(context);
 
     return CustomScrollView(
       physics: const ScrollPhysics(),
@@ -57,7 +60,6 @@ class _BuilProductsList extends StatelessWidget {
 
 // cabecera, LOGO
 class _CustomAppBar extends StatelessWidget {
-  
   final _repository = Repositories();
 
   @override
