@@ -1,7 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.wappshop_2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.wappshop_2">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="wappshop_2"
+        android:label="Lua Lencería"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

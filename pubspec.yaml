@@ -28,10 +28,10 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
-  firebase_auth: ^3.1.1
-  firebase_core: ^1.6.0
-  firebase_database: ^7.2.1
-  firebase_storage: ^10.0.3
+  firebase_auth: ^3.1.2
+  firebase_core: ^1.7.0
+  firebase_database: ^8.0.0
+  firebase_storage: ^10.0.4
   flutter:
     sdk: flutter
   carousel_slider: ^4.0.0
