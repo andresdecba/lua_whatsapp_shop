@@ -87,7 +87,7 @@ class AdminProductsProvider extends ChangeNotifier {
         // subir imagen
         final uploadTask = await _storageRef.child('productsImages/$itemId/$fileName').putFile(item);
         // obtener url de la imagen subida y agregar a la lista de imgs
-        uploadTask.ref.getDownloadURL().then((value) => product.images.add(value));
+        await uploadTask.ref.getDownloadURL().then((value) => product.images.add(value));
 
         progress += uploadTask.totalBytes * uploadTask.bytesTransferred / 100;
         
