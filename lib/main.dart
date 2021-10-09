@@ -7,10 +7,12 @@ import 'screens/screens.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   runApp(AppState());
 }
 
 class AppState extends StatelessWidget {
+  
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
 
   @override

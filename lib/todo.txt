@@ -38,3 +38,10 @@ OTROS
 ***1- Subir a GitHub
 
 2- Subir a PlayStore
+
+
+
+firebase_auth: ^3.1.2
+  firebase_core: ^1.7.0
+  firebase_database: ^8.0.0
+  firebase_storage: ^10.0.4

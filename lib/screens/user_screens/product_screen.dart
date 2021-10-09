@@ -12,10 +12,11 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _products = Repositories().getProducts;
 
     // recibir los datos del producto desde el Home Screen
     final int _index = ModalRoute.of(context)!.settings.arguments as int;
+    
+    var _products = Repositories().getProducts;
     final _product = _products[_index];
 
     return SafeArea(
@@ -56,60 +57,58 @@ class ProductScreen extends StatelessWidget {
             ///////// descripcion
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // titulo
-                    Text(
-                      _product.title,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                    ),
-                    //Divider(height: 20),
-                    SizedBox(
-                      height: 20,
-                    ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // titulo
+                  Text(
+                    _product.title,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  ),
+                  //Divider(height: 20),
+                  SizedBox(
+                    height: 20,
+                  ),
 
-                    // subtitulo
-                    Text(
-                      _product.subtitle,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                  // subtitulo
+                  Text(
+                    _product.subtitle,
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // precio
-                        Text(
-                          '\$ ${_product.price}',
-                          style: TextStyle(fontSize: 25),
-                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // precio
+                      Text(
+                        '\$ ${_product.price}',
+                        style: TextStyle(fontSize: 25),
+                      ),
 
-                        // disponible
-                        !_product.available
-                          ? Text(
-                            'No disponible',
-                            style: TextStyle(fontSize: 14, color: Colors.orange),
-                          )
-                          : SizedBox(),
-                      ],
-                    ),
-                    Divider(
-                      height: 20,
-                      thickness: 1,
-                    ),
+                      // disponible
+                      !_product.available
+                        ? Text(
+                          'No disponible',
+                          style: TextStyle(fontSize: 14, color: Colors.orange),
+                        )
+                        : SizedBox(),
+                    ],
+                  ),
+                  Divider(
+                    height: 20,
+                    thickness: 1,
+                  ),
 
-                    // description
-                    Text(
-                      _product.description,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
+                  // description
+                  Text(
+                    _product.description,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
             ),
           ],

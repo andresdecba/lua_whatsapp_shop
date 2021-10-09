@@ -13,6 +13,7 @@ class Repositories {
 
   // propiedades
   List<ProductModel> getProducts = [];
+  
   ConfigModel configModel = ConfigModel(number: "", description: "", logoImage: "", eMail: '');
 
 }
