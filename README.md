@@ -1,16 +1,15 @@
-# wappshop_2
+# whatsapp_shop
+Este proyecto se encuentra aún en desarrollo, a continiación la descripción de lo realizado hasta el momento.
 
-A new Flutter project.
+##### Descripción:
+- Tienda online hecha en Flutter y Firebase como backend.
+- Incluye un carrito de compras y envío del detalle del pedido al vendedor a través de WhtasApp.
+- Del lado del cliente: cuenta con pantalla de inicio, pantalla de producto individual, pantalla de carrito, pantalla enviar pedido y mensaje personalixzado al vendedor.
+- Del lado del vendedor (admin): pantalla lista de todos los productos, producto nuevo, editar producto y configurar app.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##### Detalles técnicos:
+- Conexión a Firebase y Firestore.
+- BLoC para manejo de estado en pantalla carrito de compras.
+- BLoC Cubit para manejo de estado en pantalla de administración.
+- 16 paquetes en total (firebase_core, firebase_database, firebase_storage, firebase_auth, bloc, flutter_bloc, equatable, path_provider, dio, carousel_slider, multi_image_picker2, flutter_absolute_path, whatsapp_unilink, url_launcher, permission_handler, flutter_staggered_grid_view).
+- Fuente personalizada.
