@@ -9,7 +9,6 @@ Este proyecto se encuentra aún en desarrollo, a continiación la descripción d
 
 ##### Detalles técnicos:
 - Conexión a Firebase y Firestore.
-- BLoC para manejo de estado en pantalla carrito de compras.
-- BLoC Cubit para manejo de estado en pantalla de administración.
-- 16 paquetes en total (firebase_core, firebase_database, firebase_storage, firebase_auth, bloc, flutter_bloc, equatable, path_provider, dio, carousel_slider, multi_image_picker2, flutter_absolute_path, whatsapp_unilink, url_launcher, permission_handler, flutter_staggered_grid_view).
+- Provider para manejo de estado.
+- 14 paquetes en total (firebase_core, firebase_database, firebase_storage, firebase_auth, provider, path_provider, dio, carousel_slider, multi_image_picker2, flutter_absolute_path, whatsapp_unilink, url_launcher, permission_handler, flutter_staggered_grid_view).
 - Fuente personalizada.
