@@ -1,7 +1,7 @@
 # whatsapp_shop
-> **Este proyecto se encuentra aún en desarrollo, a continiación la descripción de lo realizado hasta el momento.**
+Google Play link: https://play.google.com/store/apps/details?id=com.tienda.online
 
-##### Descripción:
+### Descripción:
 - Tienda online hecha en Flutter y Firebase como backend.
 - Incluye un carrito de compras y envío del detalle del pedido al vendedor a través de WhtasApp.
 
@@ -19,7 +19,7 @@
   - configuracion general de la app.
 <hr>
 
-##### Detalles técnicos:
+### Detalles técnicos:
 - Conexión a Firebase y Firestore.
 - Provider para manejo de estado.
 - Paquetes usados:
@@ -40,7 +40,11 @@
 - Fuente personalizada.
 <hr>
 
-##### User screenshots:
+### Mas datos:
+  - Diseño UI/UX por mi con Adobe XD
+<hr>
+
+### User screenshots:
 ![img1](https://drive.google.com/uc?export=view&id=14KEZc3nDSLrTIw-2StjdvAndyHTu6cgc)
 ![img1](https://drive.google.com/uc?export=view&id=1JlgkHi8ENrfyfOP6_s17kU23BeXrp8RD)
 ![img1](https://drive.google.com/uc?export=view&id=10GAyH_hOsiNduIIgQd0Mp0GzrW05gqWF)
@@ -49,7 +53,7 @@
 ![img1](https://drive.google.com/uc?export=view&id=155li-v0Sy-XB0bi6BKzdZ6bQ7hjTH71G)
 <hr>
 
-##### Admin screenshots:
+### Admin screenshots:
 ![img1](https://drive.google.com/uc?export=view&id=1k0fPwfjKI4kqUX0t8gxgEbb_4gU91CFT)
 ![img1](https://drive.google.com/uc?export=view&id=1ODyZxaejg4f0_NyClKFf-eQsqeBz-zBI)
 ![img1](https://drive.google.com/uc?export=view&id=1GzAKm1T75usG0xW0BaBpuHJogoEywaMq)
